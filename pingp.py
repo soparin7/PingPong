@@ -24,19 +24,19 @@ class GameSprite(sprite.Sprite):
 
 
 class Player(GameSprite):
-    def update_l(self):
+    def update_l(self, number):
         
         keys = key.get_pressed()
-        if keys[K_UP] and self.rect.y < 450:
+        if keys[K_UP] and self.rect.y > 0 + number:
             self.rect.y -= self.speed
-        if keys[K_DOWN] and self.rect.y > 0:
+        if keys[K_DOWN] and self.rect.y < 480 - number:
             self.rect.y += self.speed
-    def update_r(self):
+    def update_r(self, number):
         
         keys = key.get_pressed()
-        if keys[K_w] and self.rect.y < 450:
+        if keys[K_w] and self.rect.y > 0 + number:
             self.rect.y -= self.speed
-        if keys[K_s] and self.rect.y > 0:
+        if keys[K_s] and self.rect.y < 480 - number:
             self.rect.y += self.speed
         
     
@@ -47,8 +47,9 @@ class Player(GameSprite):
 class Enemy(GameSprite):
     def update(self):
         if self.rect.y >= 450 or self.rect.y <= 0:
-            self.speed *= -1
-        
+            self.speed *= -1.01
+            
+
         self.rect.y += self.speed
         self.rect.x += self.speedx
         
@@ -63,18 +64,68 @@ class Enemy(GameSprite):
 
 
 
-FPS = 30
+FPS = 80
 game = True
-ball = Enemy((50,50), 'sfera.png', randint(400,600), randint(50,450), choice([10, -10]), choice([10, -10]))
-player = Player((50,200), 'bat3.png', 1100, 420, 10, 1)
-player2 = Player((50,200), 'bat3.png', 50, 420, 10, 2)
+ball = Enemy((20,20), 'sfera.png', randint(400,600), randint(50,450), choice([2, -2]), choice([2, -2]))
+#player = Player((20,100), 'bat3.png', 1100, 420, 12, 1)
+#player2 = Player((20,100), 'bat3.png', 50, 420, 12, 2)
+
+slice1player1 = Player((20,20), 'player1.png', 1100, 420, 20, 1)
+slice2player1 = Player((20,20), 'player1.png', 1100, 400, 20, 1)
+slice3player1 = Player((20,20), 'player1.png', 1100, 380, 20, 1)
+slice4player1 = Player((20,20), 'player1.png', 1100, 360, 20, 1)
+slice5player1 = Player((20,20), 'player1.png', 1100, 340, 20, 1)
+slice1player2 = Player((20,20), 'player2.png', 50, 420, 20, 2)
+slice2player2 = Player((20,20), 'player2.png', 50, 400, 20, 2)
+slice3player2 = Player((20,20), 'player2.png', 50, 380, 20, 2)
+slice4player2 = Player((20,20), 'player2.png', 50, 360, 20, 2)
+slice5player2 = Player((20,20), 'player2.png', 50, 340, 20, 2)
+
 while game:
    
     window.blit(background, (0, 0))
-    if sprite.collide_rect(player, ball):
-                ball.speedx *= -1 
-    if sprite.collide_rect(player2, ball):
-                ball.speedx *= -1 
+    #if sprite.collide_rect(player, ball):
+    #            ball.speedx *= -1.2
+    #             
+    #                
+    #if sprite.collide_rect(player2, ball):
+    #            ball.speedx *= -1.2 
+
+    if sprite.collide_rect(slice1player1, ball):
+        ball.speedx *= -1.2 
+        ball.speed *= -1.2 
+    if sprite.collide_rect(slice2player1, ball):
+        ball.speedx *= -1.4 
+        ball.speed *= -1.05
+    if sprite.collide_rect(slice3player1, ball):
+        ball.speedx *= -1.5 
+    if sprite.collide_rect(slice4player1, ball):
+        ball.speedx *= -1.4 
+        ball.speed *= -1.05
+    if sprite.collide_rect(slice5player1, ball):
+        ball.speedx *= -1.2 
+        ball.speed *= -1.2 
+
+
+    if sprite.collide_rect(slice1player2, ball):
+        ball.speedx *= -1.2 
+        ball.speed *= -1.2
+    if sprite.collide_rect(slice2player2, ball):
+        ball.speedx *= -1.4 
+        ball.speed *= -1.05
+    if sprite.collide_rect(slice3player2, ball):
+        ball.speedx *= -1.5
+    if sprite.collide_rect(slice4player2, ball):
+        ball.speedx *= -1.4 
+        ball.speed *= -1.05
+    if sprite.collide_rect(slice5player2, ball):
+        ball.speedx *= -1.2 
+        ball.speed *= -1.2
+
+
+
+
+
                 
     if ball.rect.x <= 0:
         window.blit(win_text, (200, 200))
@@ -86,11 +137,33 @@ while game:
     clock.tick(FPS)
     
     
-    
-    player.update_l()
-    player2.update_r()
-    player.reset()
-    player2.reset()
+    slice1player1.update_l(80)
+    slice2player1.update_l(60)
+    slice3player1.update_l(40)
+    slice4player1.update_l(20)
+    slice5player1.update_l(0)
+
+    slice1player2.update_r(80)
+    slice2player2.update_r(60)
+    slice3player2.update_r(40)
+    slice4player2.update_r(20)
+    slice5player2.update_r(0)
+
+    slice1player1.reset()
+    slice2player1.reset()
+    slice3player1.reset()
+    slice4player1.reset()
+    slice5player1.reset()
+    slice1player2.reset()
+    slice2player2.reset()
+    slice3player2.reset()
+    slice4player2.reset()
+    slice5player2.reset()
+
+    #player.update_l()
+    #player2.update_r()
+    #player.reset()
+    #player2.reset()
     ball.update()
     ball.reset()
 
